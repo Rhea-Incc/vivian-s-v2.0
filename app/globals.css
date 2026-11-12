@@ -1,0 +1,196 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Vivian's Furniture design tokens.
+  Limestone #E9E0D2 · Sand #C5AE91 · Earth #76533E · Walnut #39271F
+  Bronze #9B8060 (fine detail only) · Savannah #73745C
+*/
+
+@theme inline {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+
+  --color-limestone: var(--limestone);
+  --color-sand: var(--sand);
+  --color-earth: var(--earth);
+  --color-walnut: var(--walnut);
+  --color-bronze: var(--bronze);
+  --color-savannah: var(--savannah);
+  --color-mark: var(--mark);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+
+  --radius-sm: 0px;
+  --radius-md: 1px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+
+  --ease-luxe: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root {
+  color-scheme: light;
+  --limestone: #e9e0d2;
+  --sand: #c5ae91;
+  --earth: #76533e;
+  --walnut: #39271f;
+  --bronze: #9b8060;
+  --savannah: #73745c;
+  --mark: #331611;
+
+  --background: #e9e0d2;
+  --foreground: #39271f;
+  --card: #f1eadf;
+  --card-foreground: #39271f;
+  --popover: #f1eadf;
+  --popover-foreground: #39271f;
+  --primary: #39271f;
+  --primary-foreground: #f1eadf;
+  --secondary: #ddd0bd;
+  --secondary-foreground: #39271f;
+  --muted: #ddd0bd;
+  --muted-foreground: #5e4636;
+  --accent: #76533e;
+  --accent-foreground: #f1eadf;
+  --destructive: #8c2f1f;
+  --border: rgba(57, 39, 31, 0.16);
+  --input: rgba(57, 39, 31, 0.28);
+  --ring: #76533e;
+  --radius: 0px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: 'ss01', 'kern';
+  }
+  ::selection {
+    background: var(--earth);
+    color: var(--limestone);
+  }
+  :focus-visible {
+    outline: 1px solid var(--earth);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-sans text-[0.6875rem] font-medium uppercase tracking-[0.28em];
+  }
+  .display {
+    @apply font-serif font-light leading-[0.98] tracking-[-0.01em] text-balance;
+  }
+  .prose-editorial p {
+    @apply text-[1.0625rem] leading-[1.85] text-foreground/85;
+  }
+  .prose-editorial p + p {
+    @apply mt-6;
+  }
+  .prose-editorial h2 {
+    @apply mt-14 mb-5 font-serif text-3xl font-light md:text-4xl;
+  }
+  .prose-editorial blockquote {
+    @apply my-12 border-l border-bronze pl-8 font-serif text-2xl font-light italic leading-snug md:text-3xl;
+  }
+  .hairline {
+    @apply h-px w-full bg-foreground/15;
+  }
+}
+
+/* Reveal system: content is visible by default; motion only applies when JS marks it ready. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 900ms var(--ease-luxe),
+    transform 900ms var(--ease-luxe);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js-reveal [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+.animate-rise {
+  animation: rise 1000ms var(--ease-luxe) both;
+}
+.animate-settle {
+  animation: settle 2400ms var(--ease-luxe) both;
+}
+.animate-drift {
+  animation: drift 2400ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .js-reveal [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
